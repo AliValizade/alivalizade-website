@@ -1,0 +1,40 @@
+
+# Python
+__pycache__/
+*.py[cod]
+*.log
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Django
+db.sqlite3
+db.sqlite3-journal
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# User-uploaded media
+backend/media/
+
+# Node.js
+node_modules/
+
+# Next.js
+.next/
+out/
+
+# Build and test outputs
+build/
+dist/
+coverage/
+
+# IDE and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
