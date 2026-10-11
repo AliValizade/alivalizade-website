@@ -12,34 +12,22 @@ export default function Navbar() {
   const locale = useLocale();
   const [isOpen, setIsOpen] = useState(false);
 
-  const navLinks =
-  locale === "fa"
-    ? [
-        { href: "#contact", label: t("contact") },
-        { href: "#courses", label: t("courses") },
-        { href: "#projects", label: t("projects") },
-        { href: "#education", label: t("education") },
-        { href: "#experience", label: t("experience") },
-        { href: "#about", label: t("about") },
-      ]
-    : [
-        { href: "#about", label: t("about") },
-        { href: "#experience", label: t("experience") },
-        { href: "#education", label: t("education") },
-        { href: "#projects", label: t("projects") },
-        { href: "#courses", label: t("courses") },
-        { href: "#contact", label: t("contact") },
-      ];
+  const navLinks = [
+    { href: "#about", label: t("about") },
+    { href: "#experience", label: t("experience") },
+    { href: "#education", label: t("education") },
+    { href: "#projects", label: t("projects") },
+    { href: "#courses", label: t("courses") },
+    { href: "#contact", label: t("contact") },
+  ];
 
   return (
-    <header
-      dir="ltr"
-      className="fixed top-0 left-0 right-0 z-50 bg-[#0B1426]/80 backdrop-blur-md border-b border-[#1E3A5F]"
-    >
+    <header className="fixed top-0 left-0 right-0 z-50 bg-[#0B1426]/80 backdrop-blur-md border-b border-[#1E3A5F]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link href={`/${locale}`} className="flex items-center gap-2">
+        <div className="relative flex items-center justify-between h-16">
+          
+          {/* Logo - Left */}
+          <Link href={`/${locale}`} className="flex items-center z-10">
             <Image
               src="/logo.jpg"
               alt="PyVerse"
@@ -50,45 +38,51 @@ export default function Navbar() {
             />
           </Link>
 
-          {/* Desktop Menu */}
-          <nav className="hidden md:flex items-center gap-6">
+          {/* Desktop Menu - Center */}
+          <nav className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center gap-7">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={`/${locale}${link.href}`}
-                className="text-sm text-[#94A3B8] hover:text-white transition-colors duration-200"
+                className="text-sm text-[#94A3B8] hover:text-white transition-colors duration-200 whitespace-nowrap"
               >
                 {link.label}
               </Link>
             ))}
-
-            {/* Language Switcher */}
-            <div className="flex items-center gap-2 ml-4 border-l border-[#1E3A5F] pl-4">
-              <Link
-                href="/fa"
-                className={cn(
-                  "text-sm transition-colors",
-                  locale === "fa" ? "text-white font-medium" : "text-[#94A3B8] hover:text-white"
-                )}
-              >
-                FA
-              </Link>
-              <span className="text-[#1E3A5F]">|</span>
-              <Link
-                href="/en"
-                className={cn(
-                  "text-sm transition-colors",
-                  locale === "en" ? "text-white font-medium" : "text-[#94A3B8] hover:text-white"
-                )}
-              >
-                EN
-              </Link>
-            </div>
           </nav>
+
+          {/* Language Switcher - Right */}
+          <div className="hidden md:flex items-center gap-1.5 z-10 text-sm">
+            <Link
+              href="/fa"
+              className={cn(
+                "transition-all duration-200",
+                locale === "fa"
+                  ? "opacity-100 scale-110"
+                  : "opacity-40 hover:opacity-80"
+              )}
+              title="فارسی"
+            >
+              🇮🇷
+            </Link>
+            <span className="text-[#1E3A5F]">|</span>
+            <Link
+              href="/en"
+              className={cn(
+                "transition-all duration-200",
+                locale === "en"
+                  ? "opacity-100 scale-110"
+                  : "opacity-40 hover:opacity-80"
+              )}
+              title="English"
+            >
+              🇺🇸
+            </Link>
+          </div>
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-[#94A3B8] hover:text-white"
+            className="md:hidden text-[#94A3B8] hover:text-white z-10"
             onClick={() => setIsOpen(!isOpen)}
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -100,7 +94,7 @@ export default function Navbar() {
       <div
         className={cn(
           "md:hidden overflow-hidden transition-all duration-300",
-          isOpen ? "max-h-80 border-t border-[#1E3A5F]" : "max-h-0"
+          isOpen ? "max-h-96 border-t border-[#1E3A5F]" : "max-h-0"
         )}
       >
         <nav
@@ -118,12 +112,28 @@ export default function Navbar() {
             </Link>
           ))}
 
-          <div className="flex items-center gap-4 pt-2 border-t border-[#1E3A5F]">
-            <Link href="/fa" className={locale === "fa" ? "text-white" : "text-[#94A3B8]"}>
-              فارسی
+          <div className="flex items-center gap-4 pt-3 border-t border-[#1E3A5F]">
+            <Link
+              href="/fa"
+              className={cn(
+                "flex items-center gap-2 text-sm",
+                locale === "fa" ? "text-white" : "text-[#94A3B8]"
+              )}
+              onClick={() => setIsOpen(false)}
+            >
+              <span>🇮🇷</span>
+              <span>فارسی</span>
             </Link>
-            <Link href="/en" className={locale === "en" ? "text-white" : "text-[#94A3B8]"}>
-              English
+            <Link
+              href="/en"
+              className={cn(
+                "flex items-center gap-2 text-sm",
+                locale === "en" ? "text-white" : "text-[#94A3B8]"
+              )}
+              onClick={() => setIsOpen(false)}
+            >
+              <span>🇺🇸</span>
+              <span>English</span>
             </Link>
           </div>
         </nav>
