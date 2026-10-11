@@ -7,6 +7,24 @@ const api = axios.create({
   },
 });
 
+// اضافه کردن توکن به هر درخواست
+api.interceptors.request.use((config) => {
+  if (typeof window !== "undefined") {
+    const stored = localStorage.getItem("auth-storage");
+    if (stored) {
+      try {
+        const { state } = JSON.parse(stored);
+        if (state?.access) {
+          config.headers.Authorization = `Bearer ${state.access}`;
+        }
+      } catch {
+        // ignore
+      }
+    }
+  }
+  return config;
+});
+
 // Skills
 export const getSkills = async () => {
   const res = await api.get("/skills/");
@@ -37,14 +55,35 @@ export const getCourses = async () => {
   return res.data;
 };
 
+export const getCourseBySlug = async (slug: string) => {
+  const res = await api.get(`/courses/${slug}/`);
+  return res.data;
+};
+
 // Site Settings
 export const getSiteSettings = async () => {
   const res = await api.get("/settings/");
   return res.data;
 };
 
-export const getCourseBySlug = async (slug: string) => {
-  const res = await api.get(`/courses/${slug}/`);
+// Auth
+export const register = async (data: {
+  username: string;
+  email: string;
+  password1: string;
+  password2: string;
+}) => {
+  const res = await api.post("/auth/registration/", data);
+  return res.data;
+};
+
+export const login = async (data: { username: string; password: string }) => {
+  const res = await api.post("/auth/login/", data);
+  return res.data;
+};
+
+export const getUser = async () => {
+  const res = await api.get("/auth/user/");
   return res.data;
 };
 
