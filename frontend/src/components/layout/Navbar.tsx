@@ -4,48 +4,76 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import { useTranslations, useLocale } from "next-intl";
 import { cn } from "@/lib/utils";
 
-const navLinks = [
-  { href: "#contact", label: "تماس" },
-  { href: "#courses", label: "دوره‌ها" },
-  { href: "#projects", label: "پروژه‌ها" },
-  { href: "#education", label: "تحصیلات" },
-  { href: "#experience", label: "سوابق" },
-  { href: "#about", label: "درباره من" },
-];
-
 export default function Navbar() {
+  const t = useTranslations("Nav");
+  const locale = useLocale();
   const [isOpen, setIsOpen] = useState(false);
 
+  const navLinks = [
+    { href: "#about", label: t("about") },
+    { href: "#experience", label: t("experience") },
+    { href: "#education", label: t("education") },
+    { href: "#projects", label: t("projects") },
+    { href: "#courses", label: t("courses") },
+    { href: "#contact", label: t("contact") },
+  ];
+
   return (
-    <header dir="ltr" className="fixed top-0 left-0 right-0 z-50 bg-[#0B1426]/80 backdrop-blur-md border-b border-[#1E3A5F]">
+    <header
+      dir="ltr"
+      className="fixed top-0 left-0 right-0 z-50 bg-[#0B1426]/80 backdrop-blur-md border-b border-[#1E3A5F]"
+    >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          
-          {/* Logo - Left */}
-          <Link href="/" className="flex items-center gap-2">
+          {/* Logo */}
+          <Link href={`/${locale}`} className="flex items-center gap-2">
             <Image
-              src="/logo.jpg"
+              src="/logo.png"
               alt="PyVerse"
-              width={200}
-              height={80}
+              width={140}
+              height={40}
               className="h-9 w-auto"
               priority
             />
           </Link>
 
-          {/* Desktop Menu - Right */}
-          <nav className="hidden md:flex items-center gap-8">
+          {/* Desktop Menu */}
+          <nav className="hidden md:flex items-center gap-6">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
-                href={link.href}
+                href={`/${locale}${link.href}`}
                 className="text-sm text-[#94A3B8] hover:text-white transition-colors duration-200"
               >
                 {link.label}
               </Link>
             ))}
+
+            {/* Language Switcher */}
+            <div className="flex items-center gap-2 ml-4 border-l border-[#1E3A5F] pl-4">
+              <Link
+                href="/fa"
+                className={cn(
+                  "text-sm transition-colors",
+                  locale === "fa" ? "text-white font-medium" : "text-[#94A3B8] hover:text-white"
+                )}
+              >
+                FA
+              </Link>
+              <span className="text-[#1E3A5F]">|</span>
+              <Link
+                href="/en"
+                className={cn(
+                  "text-sm transition-colors",
+                  locale === "en" ? "text-white font-medium" : "text-[#94A3B8] hover:text-white"
+                )}
+              >
+                EN
+              </Link>
+            </div>
           </nav>
 
           {/* Mobile Menu Button */}
@@ -62,20 +90,32 @@ export default function Navbar() {
       <div
         className={cn(
           "md:hidden overflow-hidden transition-all duration-300",
-          isOpen ? "max-h-64 border-t border-[#1E3A5F]" : "max-h-0"
+          isOpen ? "max-h-80 border-t border-[#1E3A5F]" : "max-h-0"
         )}
       >
-        <nav className="flex flex-col px-4 py-4 gap-4 bg-[#0B1426]" dir="rtl">
+        <nav
+          className="flex flex-col px-4 py-4 gap-4 bg-[#0B1426]"
+          dir={locale === "fa" ? "rtl" : "ltr"}
+        >
           {navLinks.map((link) => (
             <Link
               key={link.href}
-              href={link.href}
+              href={`/${locale}${link.href}`}
               className="text-[#94A3B8] hover:text-white transition-colors"
               onClick={() => setIsOpen(false)}
             >
               {link.label}
             </Link>
           ))}
+
+          <div className="flex items-center gap-4 pt-2 border-t border-[#1E3A5F]">
+            <Link href="/fa" className={locale === "fa" ? "text-white" : "text-[#94A3B8]"}>
+              فارسی
+            </Link>
+            <Link href="/en" className={locale === "en" ? "text-white" : "text-[#94A3B8]"}>
+              English
+            </Link>
+          </div>
         </nav>
       </div>
     </header>

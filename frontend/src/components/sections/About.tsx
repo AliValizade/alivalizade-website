@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useTranslations, useLocale } from "next-intl";
 import { getSkills } from "@/lib/api";
 
 interface Skill {
@@ -13,6 +14,8 @@ interface Skill {
 }
 
 export default function About() {
+  const t = useTranslations("About");
+  const locale = useLocale();
   const [skills, setSkills] = useState<Skill[]>([]);
 
   useEffect(() => {
@@ -22,9 +25,9 @@ export default function About() {
   }, []);
 
   const levelMap: Record<string, string> = {
-    advanced: "پیشرفته",
-    intermediate: "متوسط",
-    beginner: "مبتدی",
+    advanced: locale === "fa" ? "پیشرفته" : "Advanced",
+    intermediate: locale === "fa" ? "متوسط" : "Intermediate",
+    beginner: locale === "fa" ? "مبتدی" : "Beginner",
   };
 
   return (
@@ -32,7 +35,7 @@ export default function About() {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            درباره من
+            {t("title")}
           </h2>
           <div className="w-20 h-1 bg-gradient-to-r from-[#3B82F6] to-[#8B5CF6] mx-auto rounded-full" />
         </div>
@@ -46,45 +49,39 @@ export default function About() {
             transition={{ duration: 0.6 }}
           >
             <h3 className="text-xl font-semibold text-white mb-6">
-              علی ولی‌زاده هستم
+              {t("name")}
             </h3>
             <div className="space-y-4 text-[#94A3B8] leading-relaxed">
-              <p>
-                برنامه‌نویس پایتون و جنگو با بیش از ۴ سال تجربه عملی در توسعه
-                بک‌اند، ربات‌های تلگرام، اتوماسیون و سیستم‌های مبتنی بر داده.
-              </p>
-              <p>
-                در حال حاضر کارشناس ارشد هوش مصنوعی و رباتیک هستم و به
-                عنوان مدرس دانشگاه فعالیت می‌کنم. علاقه‌مند به کدنویسی تمیز،
-                معماری مقیاس‌پذیر و تبدیل ایده‌ها به سیستم‌های واقعی و قابل
-                نگهداری.
-              </p>
-              <p>
-                تجربه کار با Django، PostgreSQL، Machine Learning و ابزارهای
-                اتوماسیون را دارم و همیشه به دنبال یادگیری و ساخت محصولات مفید
-                هستم.
-              </p>
+              <p>{t("p1")}</p>
+              <p>{t("p2")}</p>
+              <p>{t("p3")}</p>
             </div>
           </motion.div>
 
-          {/* Skills from API */}
+          {/* Skills */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <h3 className="text-xl font-semibold text-white mb-6">مهارت‌ها</h3>
+            <h3 className="text-xl font-semibold text-white mb-6">
+              {t("skills")}
+            </h3>
             <div className="flex flex-wrap gap-3">
               {skills.length === 0 ? (
-                <p className="text-[#94A3B8] text-sm">در حال بارگذاری...</p>
+                <p className="text-[#94A3B8] text-sm">...</p>
               ) : (
                 skills.map((skill) => (
                   <div
                     key={skill.id}
                     className="px-4 py-2 rounded-xl bg-[#111C33] border border-[#1E3A5F] text-sm text-[#F8FAFC] hover:border-[#3B82F6] transition-colors duration-200"
                   >
-                    <span>{skill.name}</span>
+                    <span>
+                      {locale === "en" && skill.name_en
+                        ? skill.name_en
+                        : skill.name}
+                    </span>
                     <span className="text-[#94A3B8] text-xs mr-2">
                       {" "}
                       · {levelMap[skill.level] || skill.level}
