@@ -6,12 +6,14 @@ import { ExternalLink } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 import Link from "next/link";
 import { getProjects } from "@/lib/api";
+import { useLocale, useTranslations } from "next-intl";
 
 interface Project {
   id: number;
   title: string;
   title_en?: string;
   short_description: string;
+  short_description_en?: string;
   technologies_list: string[];
   github_url?: string;
   demo_url?: string;
@@ -19,6 +21,8 @@ interface Project {
 }
 
 export default function Projects() {
+  const t = useTranslations("Projects");
+  const locale = useLocale();
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -39,19 +43,19 @@ export default function Projects() {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            پروژه‌ها
+            {t("title")}
           </h2>
           <div className="w-20 h-1 bg-gradient-to-r from-[#3B82F6] to-[#8B5CF6] mx-auto rounded-full" />
           <p className="mt-4 text-[#94A3B8] max-w-xl mx-auto">
-            برخی از پروژه‌هایی که روی آن‌ها کار کرده‌ام
+            {t("description")}
           </p>
         </div>
 
         {loading ? (
-          <div className="text-center text-[#94A3B8]">در حال بارگذاری...</div>
+          <div className="text-center text-[#94A3B8]">{t("loading")}</div>
         ) : projects.length === 0 ? (
           <div className="text-center text-[#94A3B8]">
-            هنوز پروژه‌ای ثبت نشده است.
+            {t("empty")}
           </div>
         ) : (
           <div className="grid md:grid-cols-2 gap-6">
@@ -66,16 +70,16 @@ export default function Projects() {
               >
                 {project.is_featured && (
                   <span className="absolute top-4 left-4 text-xs px-2.5 py-1 rounded-full bg-[#8B5CF6]/20 text-[#8B5CF6]">
-                    ویژه
+                    {t("featured")}
                   </span>
                 )}
 
                 <h3 className="text-xl font-semibold text-white mb-3 mt-2">
-                  {project.title}
+                  {locale === "en" ? (project.title_en || project.title) : project.title}
                 </h3>
 
                 <p className="text-[#94A3B8] text-sm leading-relaxed mb-5">
-                  {project.short_description}
+                  {locale === "en" ? (project.short_description_en || project.short_description) : project.short_description}
                 </p>
 
                 <div className="flex flex-wrap gap-2 mb-6">
@@ -109,7 +113,7 @@ export default function Projects() {
                       className="flex items-center gap-1.5 text-sm text-[#94A3B8] hover:text-[#3B82F6] transition-colors"
                     >
                       <ExternalLink size={16} />
-                      <span>دمو</span>
+                      <span>{t("demo")}</span>
                     </Link>
                   )}
                 </div>

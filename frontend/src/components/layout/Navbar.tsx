@@ -12,14 +12,24 @@ export default function Navbar() {
   const locale = useLocale();
   const [isOpen, setIsOpen] = useState(false);
 
-  const navLinks = [
-    { href: "#about", label: t("about") },
-    { href: "#experience", label: t("experience") },
-    { href: "#education", label: t("education") },
-    { href: "#projects", label: t("projects") },
-    { href: "#courses", label: t("courses") },
-    { href: "#contact", label: t("contact") },
-  ];
+  const navLinks =
+  locale === "fa"
+    ? [
+        { href: "#contact", label: t("contact") },
+        { href: "#courses", label: t("courses") },
+        { href: "#projects", label: t("projects") },
+        { href: "#education", label: t("education") },
+        { href: "#experience", label: t("experience") },
+        { href: "#about", label: t("about") },
+      ]
+    : [
+        { href: "#about", label: t("about") },
+        { href: "#experience", label: t("experience") },
+        { href: "#education", label: t("education") },
+        { href: "#projects", label: t("projects") },
+        { href: "#courses", label: t("courses") },
+        { href: "#contact", label: t("contact") },
+      ];
 
   return (
     <header
@@ -31,10 +41,10 @@ export default function Navbar() {
           {/* Logo */}
           <Link href={`/${locale}`} className="flex items-center gap-2">
             <Image
-              src="/logo.png"
+              src="/logo.jpg"
               alt="PyVerse"
-              width={140}
-              height={40}
+              width={180}
+              height={80}
               className="h-9 w-auto"
               priority
             />

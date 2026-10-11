@@ -5,11 +5,14 @@ import { motion } from "framer-motion";
 import { BookOpen, Clock, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { getCourses } from "@/lib/api";
+import { useLocale, useTranslations } from "next-intl";
 
 interface Course {
   id: number;
   title: string;
+  title_en?: string;
   short_description: string;
+  short_description_en?: string;
   level: string;
   duration_hours: number;
   price: string | number;
@@ -21,6 +24,8 @@ interface Course {
 }
 
 export default function Courses() {
+  const t = useTranslations("Courses");
+  const locale = useLocale();
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -32,13 +37,13 @@ export default function Courses() {
   }, []);
 
   const levelMap: Record<string, string> = {
-    beginner: "مبتدی",
-    intermediate: "متوسط",
-    advanced: "پیشرفته",
+    beginner: t("beginner"),
+    intermediate: t("intermediate"),
+    advanced: t("advanced"),
   };
 
   const formatPrice = (price: string | number) => {
-    return Number(price).toLocaleString("fa-IR");
+    return Number(price).toLocaleString(locale === "fa" ? "fa-IR" : "en-US");
   };
 
   return (
@@ -46,19 +51,19 @@ export default function Courses() {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            دوره‌های آموزشی
+            {t("title")}
           </h2>
           <div className="w-20 h-1 bg-gradient-to-r from-[#3B82F6] to-[#8B5CF6] mx-auto rounded-full" />
           <p className="mt-4 text-[#94A3B8] max-w-xl mx-auto">
-            دوره‌های پروژه‌محور برای یادگیری عملی و ورود به بازار کار
+            {t("description")}
           </p>
         </div>
 
         {loading ? (
-          <div className="text-center text-[#94A3B8]">در حال بارگذاری...</div>
+          <div className="text-center text-[#94A3B8]">{t("loading")}</div>
         ) : courses.length === 0 ? (
           <div className="text-center text-[#94A3B8]">
-            هنوز دوره‌ای منتشر نشده است.
+            {t("empty")}
           </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -76,16 +81,16 @@ export default function Courses() {
                 <div className="p-6 flex flex-col flex-1">
                   {course.is_featured && (
                     <span className="self-start text-xs px-2.5 py-1 rounded-full bg-[#8B5CF6]/20 text-[#8B5CF6] mb-4">
-                      پرفروش
+                      {t("bestseller")}
                     </span>
                   )}
 
                   <h3 className="text-lg font-semibold text-white mb-3 leading-snug">
-                    {course.title}
+                    {locale === "en" ? (course.title_en || course.title) : course.title}
                   </h3>
 
                   <p className="text-[#94A3B8] text-sm leading-relaxed mb-5 flex-1">
-                    {course.short_description}
+                    {locale === "en" ? (course.short_description_en || course.short_description) : course.short_description}
                   </p>
 
                   <div className="flex items-center gap-4 text-xs text-[#94A3B8] mb-5">
@@ -95,7 +100,7 @@ export default function Courses() {
                     </div>
                     <div className="flex items-center gap-1.5">
                       <Clock size={14} />
-                      <span>{course.duration_hours} ساعت</span>
+                      <span>{course.duration_hours} {t("hours")}</span>
                     </div>
                   </div>
 
@@ -114,7 +119,7 @@ export default function Courses() {
                         <span className="text-lg font-bold text-white">
                           {formatPrice(course.price)}{" "}
                           <span className="text-sm font-normal text-[#94A3B8]">
-                            تومان
+                            {t("currency")}
                           </span>
                         </span>
                       )}
@@ -125,7 +130,7 @@ export default function Courses() {
                       className="flex items-center gap-1.5 text-sm text-[#3B82F6] hover:text-white transition-colors font-medium"
                     >
                       <span>ثبت‌نام</span>
-                      <ArrowLeft size={16} />
+                      <ArrowLeft size={16} className={locale === "en" ? "rotate-180" : ""} />
                     </Link>
                   </div>
                 </div>

@@ -27,5 +27,51 @@
     "loading": "Loading...",
     "featured": "Featured",
     "bestseller": "Bestseller"
+  },
+  "Projects": {
+    "title": "Projects",
+    "description": "A selection of projects I have worked on",
+    "loading": "Loading...",
+    "empty": "No projects have been published yet.",
+    "featured": "Featured",
+    "demo": "Live Demo"
+  },
+  "Courses": {
+    "title": "Courses",
+    "description": "Project-based courses for practical learning and career development",
+    "loading": "Loading...",
+    "empty": "No courses have been published yet.",
+    "bestseller": "Bestseller",
+    "beginner": "Beginner",
+    "intermediate": "Intermediate",
+    "advanced": "Advanced",
+    "hours": "hours",
+    "currency": "IRR",
+    "enroll": "Enroll"
+  },
+  "Contact": {
+    "title": "Contact Me",
+    "description": "Get in touch for collaboration, consulting, or course enrollment",
+    "email": "Email",
+    "phone": "Phone",
+    "location": "Location",
+    "city": "Mashhad, Iran",
+    "social": "Social Media",
+    "githubProfile": "GitHub profile",
+    "linkedinProfile": "LinkedIn profile",
+    "telegramChannel": "Telegram channel",
+    "successTitle": "Your message has been sent",
+    "successDescription": "I'll get back to you soon.",
+    "sendAnother": "Send another message",
+    "name": "Name",
+    "namePlaceholder": "Your name",
+    "message": "Message",
+    "messagePlaceholder": "Write your message...",
+    "error": "Failed to send the message. Please try again.",
+    "sending": "Sending...",
+    "send": "Send Message"
+  },
+  "Footer": {
+    "builtWith": "Built with Next.js & Django"
   }
 }
