@@ -6,8 +6,10 @@ import { Mail, Phone, MapPin, Send } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import Link from "next/link";
 import api from "@/lib/api";
+import { useTranslations } from "next-intl";
 
 export default function Contact() {
+  const t = useTranslations("Contact");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -36,7 +38,7 @@ export default function Contact() {
     } catch (err: any) {
       setError(
         err.response?.data?.detail ||
-          "خطا در ارسال پیام. لطفاً دوباره تلاش کنید."
+          t("error")
       );
     } finally {
       setLoading(false);
@@ -48,11 +50,11 @@ export default function Contact() {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            تماس با من
+            {t("title")}
           </h2>
           <div className="w-20 h-1 bg-gradient-to-r from-[#3B82F6] to-[#8B5CF6] mx-auto rounded-full" />
           <p className="mt-4 text-[#94A3B8] max-w-xl mx-auto">
-            برای همکاری، مشاوره یا ثبت‌نام در دوره‌ها پیام بدهید
+            {t("description")}
           </p>
         </div>
 
@@ -70,7 +72,7 @@ export default function Contact() {
                 <Mail size={20} />
               </div>
               <div>
-                <h4 className="text-white font-medium mb-1">ایمیل</h4>
+                <h4 className="text-white font-medium mb-1">{t("email")}</h4>
                 <a
                   href="mailto:alivalizade@gmail.com"
                   className="text-[#94A3B8] hover:text-[#3B82F6] transition-colors text-sm"
@@ -85,7 +87,7 @@ export default function Contact() {
                 <Phone size={20} />
               </div>
               <div>
-                <h4 className="text-white font-medium mb-1">تلفن</h4>
+                <h4 className="text-white font-medium mb-1">{t("phone")}</h4>
                 <a
                   href="tel:+989155772159"
                   className="text-[#94A3B8] hover:text-[#3B82F6] transition-colors text-sm"
@@ -101,20 +103,20 @@ export default function Contact() {
                 <MapPin size={20} />
               </div>
               <div>
-                <h4 className="text-white font-medium mb-1">موقعیت</h4>
-                <p className="text-[#94A3B8] text-sm">مشهد، ایران</p>
+                <h4 className="text-white font-medium mb-1">{t("location")}</h4>
+                <p className="text-[#94A3B8] text-sm">{t("city")}</p>
               </div>
             </div>
 
             {/* Social Links */}
             <div className="pt-6">
-              <h4 className="text-white font-medium mb-4">شبکه‌های اجتماعی</h4>
+              <h4 className="text-white font-medium mb-4">{t("social")}</h4>
               <div className="flex items-center gap-3">
                 <Link
                   href="https://github.com/AliValizade"
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label="پروفایل GitHub"
+                  aria-label={t("githubProfile")}
                   title="GitHub"
                   className="w-11 h-11 rounded-xl bg-[#111C33] border border-[#1E3A5F] flex items-center justify-center text-[#94A3B8] hover:text-white hover:border-[#3B82F6] transition-all"
                 >
@@ -125,7 +127,7 @@ export default function Contact() {
                   href="https://www.linkedin.com/in/alivalizade/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label="پروفایل LinkedIn"
+                  aria-label={t("linkedinProfile")}
                   title="LinkedIn"
                   className="w-11 h-11 rounded-xl bg-[#111C33] border border-[#1E3A5F] flex items-center justify-center text-[#94A3B8] hover:text-white hover:border-[#3B82F6] transition-all"
                 >
@@ -136,7 +138,7 @@ export default function Contact() {
                   href="https://t.me/titechco"
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label="کانال تلگرام"
+                  aria-label={t("telegramChannel")}
                   title="Telegram"
                   className="w-11 h-11 rounded-xl bg-[#111C33] border border-[#1E3A5F] flex items-center justify-center text-[#94A3B8] hover:text-white hover:border-[#3B82F6] transition-all"
                 >
@@ -160,22 +162,22 @@ export default function Contact() {
                   ✓
                 </div>
                 <h3 className="text-white text-lg font-semibold mb-2">
-                  پیام شما ارسال شد
+                  {t("successTitle")}
                 </h3>
                 <p className="text-[#94A3B8] text-sm mb-6">
-                  به زودی با شما تماس گرفته می‌شود.
+                  {t("successDescription")}
                 </p>
                 <button
                   onClick={() => setSuccess(false)}
                   className="text-[#3B82F6] text-sm hover:underline"
                 >
-                  ارسال پیام جدید
+                  {t("sendAnother")}
                 </button>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
-                  <label className="block text-sm text-[#94A3B8] mb-2">نام</label>
+                  <label className="block text-sm text-[#94A3B8] mb-2">{t("name")}</label>
                   <input
                     type="text"
                     name="name"
@@ -183,12 +185,12 @@ export default function Contact() {
                     value={formData.name}
                     onChange={handleChange}
                     className="w-full px-4 py-3 rounded-xl bg-[#0B1426] border border-[#1E3A5F] text-white placeholder:text-[#64748B] focus:outline-none focus:border-[#3B82F6] transition-colors"
-                    placeholder="نام شما"
+                    placeholder={t("namePlaceholder")}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm text-[#94A3B8] mb-2">ایمیل</label>
+                  <label className="block text-sm text-[#94A3B8] mb-2">{t("email")}</label>
                   <input
                     type="email"
                     name="email"
@@ -202,7 +204,7 @@ export default function Contact() {
                 </div>
 
                 <div>
-                  <label className="block text-sm text-[#94A3B8] mb-2">پیام</label>
+                  <label className="block text-sm text-[#94A3B8] mb-2">{t("message")}</label>
                   <textarea
                     name="message"
                     required
@@ -210,7 +212,7 @@ export default function Contact() {
                     value={formData.message}
                     onChange={handleChange}
                     className="w-full px-4 py-3 rounded-xl bg-[#0B1426] border border-[#1E3A5F] text-white placeholder:text-[#64748B] focus:outline-none focus:border-[#3B82F6] transition-colors resize-none"
-                    placeholder="پیام خود را بنویسید..."
+                    placeholder={t("messagePlaceholder")}
                   />
                 </div>
 
@@ -223,7 +225,7 @@ export default function Contact() {
                   disabled={loading}
                   className="w-full py-3.5 rounded-xl bg-[#3B82F6] hover:bg-[#2563EB] disabled:opacity-60 text-white font-medium transition-all duration-200 shadow-lg shadow-blue-500/20"
                 >
-                  {loading ? "در حال ارسال..." : "ارسال پیام"}
+                  {loading ? t("sending") : t("send")}
                 </button>
               </form>
             )}

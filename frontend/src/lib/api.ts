@@ -43,4 +43,9 @@ export const getSiteSettings = async () => {
   return res.data;
 };
 
+export const getCourseBySlug = async (slug: string) => {
+  const res = await api.get(`/courses/${slug}/`);
+  return res.data;
+};
+
 export default api;
