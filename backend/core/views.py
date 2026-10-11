@@ -2,7 +2,8 @@ from rest_framework import viewsets, status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.core.mail import send_mail
+import logging
+from django.core.mail import EmailMessage
 from django.conf import settings
 
 from .models import SiteSettings, Skill, Experience, Education
@@ -13,6 +14,8 @@ from .serializers import (
     EducationSerializer,
     ContactMessageSerializer,
 )
+
+logger = logging.getLogger(__name__)
 
 
 class SiteSettingsView(APIView):
@@ -46,28 +49,45 @@ class EducationViewSet(viewsets.ReadOnlyModelViewSet):
     pagination_class = None
 
 
+
 class ContactView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
         serializer = ContactMessageSerializer(data=request.data)
-        if serializer.is_valid():
-            message = serializer.save()
 
-            # ارسال ایمیل (اختیاری - اگر SMTP تنظیم شده باشد)
-            try:
-                send_mail(
-                    subject=f"پیام جدید از {message.name}",
-                    message=f"نام: {message.name}\nایمیل: {message.email}\n\nپیام:\n{message.message}",
-                    from_email=settings.DEFAULT_FROM_EMAIL,
-                    recipient_list=[settings.DEFAULT_FROM_EMAIL],
-                    fail_silently=True,
-                )
-            except Exception:
-                pass  # اگر ایمیل تنظیم نشده بود، فقط ذخیره شود
-
+        if not serializer.is_valid():
             return Response(
-                {"detail": "پیام شما با موفقیت ارسال شد."},
-                status=status.HTTP_201_CREATED
+                serializer.errors,
+                status=status.HTTP_400_BAD_REQUEST,
             )
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        # Save the message first; email failure must not lose it.
+        message = serializer.save()
+
+        try:
+            email = EmailMessage(
+                subject=f"پیام جدید از {message.name}",
+                body=(
+                    f"نام: {message.name}\n"
+                    f"ایمیل: {message.email}\n\n"
+                    f"پیام:\n{message.message}"
+                ),
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                to=[settings.CONTACT_NOTIFICATION_EMAIL],
+                reply_to=[message.email],
+            )
+
+            email.send(fail_silently=False)
+
+        except Exception:
+            logger.exception(
+                "Failed to send contact notification email."
+            )
+
+        return Response(
+            {"detail": "پیام شما با موفقیت ثبت شد."},
+            status=status.HTTP_201_CREATED,
+        )
+
+    
