@@ -126,11 +126,11 @@ export default function Courses() {
                     </div>
 
                     <Link
-                      href={`#contact`}
+                      href={`/${locale}/courses/${course.slug}`}
                       className="flex items-center gap-1.5 text-sm text-[#3B82F6] hover:text-white transition-colors font-medium"
                     >
-                      <span>ثبت‌نام</span>
-                      <ArrowLeft size={16} className={locale === "en" ? "rotate-180" : ""} />
+                      <span>{locale === "fa" ? "مشاهده دوره" : "View Course"}</span>
+                      <ArrowLeft size={16} />
                     </Link>
                   </div>
                 </div>

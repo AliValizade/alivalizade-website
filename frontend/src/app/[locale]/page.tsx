@@ -40,9 +40,11 @@ export default function Home() {
             {t("role")}
           </p>
 
+          {/*
           <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
             {t("name")}
           </h1>
+          */}
 
           <p className="text-lg md:text-xl text-[#94A3B8] max-w-2xl mx-auto mb-10 leading-relaxed">
             {t("description")}
