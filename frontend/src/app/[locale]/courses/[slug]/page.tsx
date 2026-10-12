@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
 import Link from "next/link";
 import { BookOpen, Clock, ArrowLeft, Play } from "lucide-react";
-import { getCourseBySlug } from "@/lib/api";
+import { getCourseBySlug, enrollInCourse } from "@/lib/api";
+import { useAuthStore } from "@/store/authStore";
 
 interface Lesson {
   id: number;
@@ -37,13 +38,19 @@ interface Course {
 }
 
 export default function CourseDetailPage() {
+  // ===== همه Hookها باید اینجا باشند (قبل از هر return) =====
   const params = useParams();
   const locale = useLocale();
+  const router = useRouter();
+  const { isAuthenticated } = useAuthStore();
+
   const slug = params.slug as string;
 
   const [course, setCourse] = useState<Course | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [enrolling, setEnrolling] = useState(false);
+  const [enrollMsg, setEnrollMsg] = useState("");
 
   useEffect(() => {
     if (!slug) return;
@@ -54,6 +61,7 @@ export default function CourseDetailPage() {
       .finally(() => setLoading(false));
   }, [slug]);
 
+  // ===== توابع =====
   const levelMap: Record<string, string> = {
     beginner: locale === "fa" ? "مبتدی" : "Beginner",
     intermediate: locale === "fa" ? "متوسط" : "Intermediate",
@@ -63,6 +71,34 @@ export default function CourseDetailPage() {
   const formatPrice = (price: string | number) =>
     Number(price).toLocaleString(locale === "fa" ? "fa-IR" : "en-US");
 
+  const handleEnroll = async () => {
+    if (!isAuthenticated) {
+      router.push(`/${locale}/login`);
+      return;
+    }
+    if (!course) return;
+
+    setEnrolling(true);
+    setEnrollMsg("");
+    try {
+      await enrollInCourse(course.id);
+      setEnrollMsg(
+        locale === "fa"
+          ? "ثبت‌نام با موفقیت انجام شد. (در انتظار پرداخت)"
+          : "Enrolled successfully. (Pending payment)"
+      );
+    } catch (err: any) {
+      const detail =
+        err.response?.data?.detail ||
+        err.response?.data?.course_id?.[0] ||
+        (locale === "fa" ? "خطا در ثبت‌نام" : "Enrollment failed");
+      setEnrollMsg(String(detail));
+    } finally {
+      setEnrolling(false);
+    }
+  };
+
+  // ===== returnهای شرطی بعد از Hookها =====
   if (loading) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center text-[#94A3B8]">
@@ -100,7 +136,6 @@ export default function CourseDetailPage() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-16">
-      {/* Back */}
       <Link
         href={`/${locale}#courses`}
         className="inline-flex items-center gap-2 text-sm text-[#94A3B8] hover:text-white mb-10 transition-colors"
@@ -110,7 +145,6 @@ export default function CourseDetailPage() {
       </Link>
 
       <div className="grid lg:grid-cols-3 gap-10">
-        {/* Main Content */}
         <div className="lg:col-span-2 space-y-8">
           <div>
             {course.is_featured && (
@@ -135,13 +169,11 @@ export default function CourseDetailPage() {
             </div>
           )}
 
-          {/* Lessons */}
           <div className="bg-[#111C33] border border-[#1E3A5F] rounded-2xl p-6">
             <h2 className="text-white font-semibold mb-5">
               {locale === "fa" ? "سرفصل‌ها" : "Curriculum"}{" "}
               <span className="text-[#94A3B8] font-normal text-sm">
-                ({course.lessons_count}{" "}
-                {locale === "fa" ? "درس" : "lessons"})
+                ({course.lessons_count} {locale === "fa" ? "درس" : "lessons"})
               </span>
             </h2>
 
@@ -186,7 +218,7 @@ export default function CourseDetailPage() {
           </div>
         </div>
 
-        {/* Sidebar - Price Card */}
+        {/* Sidebar */}
         <div className="lg:col-span-1">
           <div className="sticky top-24 bg-[#111C33] border border-[#1E3A5F] rounded-2xl p-6 space-y-5">
             <div>
@@ -226,12 +258,23 @@ export default function CourseDetailPage() {
               </div>
             </div>
 
-            <Link
-              href={`/${locale}#contact`}
-              className="block w-full text-center py-3.5 rounded-xl bg-[#3B82F6] hover:bg-[#2563EB] text-white font-medium transition-all duration-200 shadow-lg shadow-blue-500/20"
+            <button
+              onClick={handleEnroll}
+              disabled={enrolling}
+              className="block w-full text-center py-3.5 rounded-xl bg-[#3B82F6] hover:bg-[#2563EB] disabled:opacity-60 text-white font-medium transition-all duration-200 shadow-lg shadow-blue-500/20"
             >
-              {locale === "fa" ? "ثبت‌نام در دوره" : "Enroll Now"}
-            </Link>
+              {enrolling
+                ? locale === "fa"
+                  ? "در حال ثبت‌نام..."
+                  : "Enrolling..."
+                : locale === "fa"
+                ? "ثبت‌نام در دوره"
+                : "Enroll Now"}
+            </button>
+
+            {enrollMsg && (
+              <p className="text-xs text-center text-[#94A3B8]">{enrollMsg}</p>
+            )}
 
             <p className="text-xs text-center text-[#64748B]">
               {locale === "fa"

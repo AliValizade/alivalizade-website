@@ -3,14 +3,18 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, User, LogOut, LayoutDashboard } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
+import { useAuthStore } from "@/store/authStore";
 import { cn } from "@/lib/utils";
 
 export default function Navbar() {
   const t = useTranslations("Nav");
   const locale = useLocale();
   const [isOpen, setIsOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+
+  const { user, isAuthenticated, logout } = useAuthStore();
 
   const navLinks = [
     { href: "#about", label: t("about") },
@@ -21,15 +25,20 @@ export default function Navbar() {
     { href: "#contact", label: t("contact") },
   ];
 
+  const handleLogout = () => {
+    logout();
+    setUserMenuOpen(false);
+    setIsOpen(false);
+  };
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-[#0B1426]/80 backdrop-blur-md border-b border-[#1E3A5F]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative flex items-center justify-between h-16">
-          
           {/* Logo - Left */}
           <Link href={`/${locale}`} className="flex items-center z-10">
             <Image
-              src="/logo.jpg"
+              src="/Logo.png"
               alt="PyVerse"
               width={180}
               height={80}
@@ -50,45 +59,79 @@ export default function Navbar() {
               </Link>
             ))}
           </nav>
-          
-          {/* Language Switcher + Auth Link - Right */}
-          <div className="hidden md:flex items-center gap-3 z-10 text-sm">
-            <Link
-              href={`/${locale}/login`}
-              className="whitespace-nowrap text-[#94A3B8] hover:text-[#60A5FA] transition-colors duration-200"
-            >
-              {locale === "fa" ? "ورود | ثبت‌نام" : "Login / Register"}
-            </Link>
 
-            <span className="text-[#334155]">|</span>
+          {/* Right side: Auth + Language */}
+          <div className="hidden md:flex items-center gap-4 z-10">
+            {/* Auth */}
+            {isAuthenticated && user ? (
+              <div className="relative">
+                <button
+                  onClick={() => setUserMenuOpen(!userMenuOpen)}
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-xl border border-[#1E3A5F] hover:border-[#3B82F6]/50 text-sm text-[#F8FAFC] transition-colors"
+                >
+                  <div className="w-7 h-7 rounded-full bg-[#3B82F6]/20 flex items-center justify-center text-[#3B82F6]">
+                    <User size={14} />
+                  </div>
+                  <span className="max-w-[100px] truncate">{user.username}</span>
+                </button>
 
-            <Link
-              href="/fa"
-              className={cn(
-                "transition-all duration-200",
-                locale === "fa"
-                  ? "opacity-100 scale-110"
-                  : "opacity-40 hover:opacity-80"
-              )}
-              title="فارسی"
-            >
-              🇮🇷
-            </Link>
+                {userMenuOpen && (
+                  <div className="absolute top-full mt-2 end-0 w-48 bg-[#111C33] border border-[#1E3A5F] rounded-xl shadow-xl overflow-hidden">
+                    <Link
+                      href={`/${locale}/panel`}
+                      onClick={() => setUserMenuOpen(false)}
+                      className="flex items-center gap-2 px-4 py-3 text-sm text-[#94A3B8] hover:text-white hover:bg-[#0B1426] transition-colors"
+                    >
+                      <LayoutDashboard size={16} />
+                      {locale === "fa" ? "پنل کاربری" : "Dashboard"}
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="w-full flex items-center gap-2 px-4 py-3 text-sm text-[#94A3B8] hover:text-red-400 hover:bg-[#0B1426] transition-colors"
+                    >
+                      <LogOut size={16} />
+                      {locale === "fa" ? "خروج" : "Logout"}
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link
+                href={`/${locale}/login`}
+                className="text-sm text-[#94A3B8] hover:text-white transition-colors"
+              >
+                {locale === "fa" ? "ورود" : "Login"}
+              </Link>
+            )}
 
-            <span className="text-[#1E3A5F]">|</span>
-
-            <Link
-              href="/en"
-              className={cn(
-                "transition-all duration-200",
-                locale === "en"
-                  ? "opacity-100 scale-110"
-                  : "opacity-40 hover:opacity-80"
-              )}
-              title="English"
-            >
-              🇺🇸
-            </Link>
+            {/* Language Switcher */}
+            <div className="flex items-center gap-1.5 text-sm border-s border-[#1E3A5F] ps-4">
+              <Link
+                href="/fa"
+                className={cn(
+                  "transition-all duration-200",
+                  locale === "fa"
+                    ? "opacity-100 scale-110"
+                    : "opacity-40 hover:opacity-80"
+                )}
+                title="فارسی"
+              >
+                🇮🇷
+              </Link>
+              <span className="text-[#1E3A5F]">|</span>
+              <Link
+                href="/en"
+                className={cn(
+                  "transition-all duration-200",
+                  locale === "en"
+                    ? "opacity-100 scale-110"
+                    : "opacity-40 hover:opacity-80"
+                )}
+                title="English"
+              >
+                🇺🇸
+              </Link>
+            </div>
           </div>
 
           {/* Mobile Menu Button */}
@@ -105,7 +148,7 @@ export default function Navbar() {
       <div
         className={cn(
           "md:hidden overflow-hidden transition-all duration-300",
-          isOpen ? "max-h-96 border-t border-[#1E3A5F]" : "max-h-0"
+          isOpen ? "max-h-[500px] border-t border-[#1E3A5F]" : "max-h-0"
         )}
       >
         <nav
@@ -123,39 +166,59 @@ export default function Navbar() {
             </Link>
           ))}
 
+          <div className="pt-3 border-t border-[#1E3A5F] space-y-3">
+            {isAuthenticated && user ? (
+              <>
+                <Link
+                  href={`/${locale}/panel`}
+                  className="flex items-center gap-2 text-sm text-white"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <User size={16} />
+                  {user.username}
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center gap-2 text-sm text-[#94A3B8] hover:text-red-400"
+                >
+                  <LogOut size={16} />
+                  {locale === "fa" ? "خروج" : "Logout"}
+                </button>
+              </>
+            ) : (
+              <Link
+                href={`/${locale}/login`}
+                className="text-sm text-[#3B82F6]"
+                onClick={() => setIsOpen(false)}
+              >
+                {locale === "fa" ? "ورود / ثبت‌نام" : "Login / Register"}
+              </Link>
+            )}
 
-          <Link
-            href={`/${locale}/login`}
-            className="rounded-lg bg-[#3B82F6] px-4 py-3 text-center font-medium text-white transition-colors hover:bg-[#2563EB]"
-            onClick={() => setIsOpen(false)}
-          >
-            {locale === "fa" ? "ورود / ثبت‌نام" : "Login / Register"}
-          </Link>
-
-
-          <div className="flex items-center gap-4 pt-3 border-t border-[#1E3A5F]">
-            <Link
-              href="/fa"
-              className={cn(
-                "flex items-center gap-2 text-sm",
-                locale === "fa" ? "text-white" : "text-[#94A3B8]"
-              )}
-              onClick={() => setIsOpen(false)}
-            >
-              <span>🇮🇷</span>
-              <span>فارسی</span>
-            </Link>
-            <Link
-              href="/en"
-              className={cn(
-                "flex items-center gap-2 text-sm",
-                locale === "en" ? "text-white" : "text-[#94A3B8]"
-              )}
-              onClick={() => setIsOpen(false)}
-            >
-              <span>🇺🇸</span>
-              <span>English</span>
-            </Link>
+            <div className="flex items-center gap-4 pt-2">
+              <Link
+                href="/fa"
+                className={cn(
+                  "flex items-center gap-2 text-sm",
+                  locale === "fa" ? "text-white" : "text-[#94A3B8]"
+                )}
+                onClick={() => setIsOpen(false)}
+              >
+                <span>🇮🇷</span>
+                <span>فارسی</span>
+              </Link>
+              <Link
+                href="/en"
+                className={cn(
+                  "flex items-center gap-2 text-sm",
+                  locale === "en" ? "text-white" : "text-[#94A3B8]"
+                )}
+                onClick={() => setIsOpen(false)}
+              >
+                <span>🇺🇸</span>
+                <span>English</span>
+              </Link>
+            </div>
           </div>
         </nav>
       </div>

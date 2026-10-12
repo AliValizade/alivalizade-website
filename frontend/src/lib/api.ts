@@ -103,4 +103,17 @@ export const getUser = async () => {
   return res.data;
 };
 
+// Enrollments
+export const getMyEnrollments = async () => {
+  const res = await api.get("/courses/enrollments/");
+  return res.data;
+};
+
+export const enrollInCourse = async (courseId: number) => {
+  const res = await api.post("/courses/enrollments/", {
+    course_id: courseId,
+  });
+  return res.data;
+};
+
 export default api;
