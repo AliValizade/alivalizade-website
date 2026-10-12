@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
 import Link from "next/link";
 import { useAuthStore } from "@/store/authStore";
-import { getMyEnrollments } from "@/lib/api";
+import { getMyEnrollments, payEnrollmentTest } from "@/lib/api";
 import { LogOut, User, BookOpen, Mail } from "lucide-react";
 
 interface Enrollment {
@@ -83,6 +83,23 @@ export default function PanelPage() {
       label: locale === "fa" ? item.fa : item.en,
       color: item.color,
     };
+  };
+
+  const [payingId, setPayingId] = useState<number | null>(null);
+
+  const handleTestPay = async (enrollmentId: number) => {
+    setPayingId(enrollmentId);
+    try {
+      await payEnrollmentTest(enrollmentId);
+      // رفرش لیست
+      const data = await getMyEnrollments();
+      setEnrollments(data.results || data);
+    } catch (err) {
+      console.error(err);
+      alert(locale === "fa" ? "خطا در پرداخت آزمایشی" : "Test payment failed");
+    } finally {
+      setPayingId(null);
+    }
   };
 
   return (
@@ -209,11 +226,31 @@ export default function PanelPage() {
                       )}
                     </p>
                   </div>
-                  <span
-                    className={`self-start text-xs px-2.5 py-1 rounded-full ${status.color}`}
-                  >
-                    {status.label}
-                  </span>
+
+                  {/* این بخش سمت راست کارت */}
+                  <div className="flex items-center gap-3 self-start">
+                    <span
+                      className={`text-xs px-2.5 py-1 rounded-full ${status.color}`}
+                    >
+                      {status.label}
+                    </span>
+
+                    {item.status === "pending" && (
+                      <button
+                        onClick={() => handleTestPay(item.id)}
+                        disabled={payingId === item.id}
+                        className="text-xs px-3 py-1.5 rounded-lg bg-[#3B82F6] hover:bg-[#2563EB] disabled:opacity-60 text-white transition-colors"
+                      >
+                        {payingId === item.id
+                          ? locale === "fa"
+                            ? "در حال پرداخت..."
+                            : "Paying..."
+                          : locale === "fa"
+                          ? "پرداخت آزمایشی"
+                          : "Test Pay"}
+                      </button>
+                    )}
+                  </div>
                 </div>
               );
             })}
