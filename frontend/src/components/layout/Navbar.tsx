@@ -50,9 +50,18 @@ export default function Navbar() {
               </Link>
             ))}
           </nav>
+          
+          {/* Language Switcher + Auth Link - Right */}
+          <div className="hidden md:flex items-center gap-3 z-10 text-sm">
+            <Link
+              href={`/${locale}/login`}
+              className="whitespace-nowrap text-[#94A3B8] hover:text-[#60A5FA] transition-colors duration-200"
+            >
+              {locale === "fa" ? "ورود | ثبت‌نام" : "Login / Register"}
+            </Link>
 
-          {/* Language Switcher - Right */}
-          <div className="hidden md:flex items-center gap-1.5 z-10 text-sm">
+            <span className="text-[#334155]">|</span>
+
             <Link
               href="/fa"
               className={cn(
@@ -65,7 +74,9 @@ export default function Navbar() {
             >
               🇮🇷
             </Link>
+
             <span className="text-[#1E3A5F]">|</span>
+
             <Link
               href="/en"
               className={cn(
@@ -111,6 +122,16 @@ export default function Navbar() {
               {link.label}
             </Link>
           ))}
+
+
+          <Link
+            href={`/${locale}/login`}
+            className="rounded-lg bg-[#3B82F6] px-4 py-3 text-center font-medium text-white transition-colors hover:bg-[#2563EB]"
+            onClick={() => setIsOpen(false)}
+          >
+            {locale === "fa" ? "ورود / ثبت‌نام" : "Login / Register"}
+          </Link>
+
 
           <div className="flex items-center gap-4 pt-3 border-t border-[#1E3A5F]">
             <Link
