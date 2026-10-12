@@ -24,6 +24,10 @@ class CourseListSerializer(serializers.ModelSerializer):
     category = CategorySerializer(read_only=True)
     final_price = serializers.DecimalField(max_digits=12, decimal_places=0, read_only=True)
     has_discount = serializers.BooleanField(read_only=True)
+    total_students = serializers.SerializerMethodField()
+
+    def get_total_students(self, obj):
+        return obj.total_students
 
     class Meta:
         model = Course
@@ -34,6 +38,7 @@ class CourseListSerializer(serializers.ModelSerializer):
             'cover_image',
             'price', 'discount_price', 'final_price', 'has_discount',
             'level', 'duration_hours',
+            'total_students',
             'is_featured',
         ]
 
@@ -44,7 +49,11 @@ class CourseDetailSerializer(serializers.ModelSerializer):
     final_price = serializers.DecimalField(max_digits=12, decimal_places=0, read_only=True)
     has_discount = serializers.BooleanField(read_only=True)
     lessons_count = serializers.SerializerMethodField()
-
+    total_students = serializers.SerializerMethodField()
+        
+    def get_total_students(self, obj):
+        return obj.total_students
+    
     class Meta:
         model = Course
         fields = [
@@ -57,6 +66,7 @@ class CourseDetailSerializer(serializers.ModelSerializer):
             'level', 'duration_hours',
             'is_featured',
             'lessons', 'lessons_count',
+            'total_students',
             'created_at',
         ]
 

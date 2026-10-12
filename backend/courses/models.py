@@ -45,6 +45,17 @@ class Course(models.Model):
     discount_price = models.DecimalField(_('Discount Price'), max_digits=12, decimal_places=0, blank=True, null=True)
     level = models.CharField(_('Level'), max_length=20, choices=LEVEL_CHOICES, default='beginner')
     duration_hours = models.PositiveIntegerField(_('Duration (hours)'), default=0)
+    students_count = models.PositiveIntegerField(
+        _('Base Students Count'),
+        default=100,
+        help_text=_('Base number shown on the site (e.g. previous students)')
+    )
+
+    @property
+    def total_students(self):
+        real = self.enrollments.exclude(status__in=['cancelled', 'refunded']).count()
+        return self.students_count + real
+    
     is_published = models.BooleanField(_('Published'), default=False)
     is_featured = models.BooleanField(_('Featured'), default=False)
     order = models.PositiveIntegerField(_('Order'), default=0)
