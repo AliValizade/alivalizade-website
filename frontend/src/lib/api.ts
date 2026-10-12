@@ -7,23 +7,39 @@ const api = axios.create({
   },
 });
 
-// اضافه کردن توکن به هر درخواست
+// فقط اگر توکن وجود داشت اضافه کن
 api.interceptors.request.use((config) => {
   if (typeof window !== "undefined") {
-    const stored = localStorage.getItem("auth-storage");
-    if (stored) {
-      try {
-        const { state } = JSON.parse(stored);
-        if (state?.access) {
-          config.headers.Authorization = `Bearer ${state.access}`;
+    try {
+      const stored = localStorage.getItem("auth-storage");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        const access = parsed?.state?.access;
+        if (access) {
+          config.headers.Authorization = `Bearer ${access}`;
         }
-      } catch {
-        // ignore
       }
+    } catch {
+      // ignore
     }
   }
   return config;
 });
+
+// اگر 401 گرفتیم، توکن خراب را پاک کن
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401 && typeof window !== "undefined") {
+      // فقط برای درخواست‌های auth توکن را پاک نکن؛ برای بقیه بله
+      const url = error.config?.url || "";
+      if (!url.includes("/auth/login") && !url.includes("/auth/registration")) {
+        localStorage.removeItem("auth-storage");
+      }
+    }
+    return Promise.reject(error);
+  }
+);
 
 // Skills
 export const getSkills = async () => {
