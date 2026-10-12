@@ -15,7 +15,17 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-change-me-in-production-r^
 
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+ALLOWED_HOSTS = [
+    h.strip()
+    for h in os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
+    if h.strip()
+]
+
+# اگر Railway دیتابیس URL بدهد (اختیاری ولی مفید):
+DATABASE_URL = os.getenv("DATABASE_URL")
+if DATABASE_URL:
+    # pip install dj-database-url  ← اگر خواستی این روش را استفاده کن
+    pass
 
 # Application definition
 INSTALLED_APPS = [
@@ -53,6 +63,7 @@ SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
@@ -130,6 +141,16 @@ LOCALE_PATHS = [BASE_DIR / 'locale']
 # Static & Media
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
 STATICFILES_DIRS = [BASE_DIR / 'static'] if (BASE_DIR / 'static').exists() else []
 
 MEDIA_URL = 'media/'
@@ -142,8 +163,12 @@ SITE_ID = 1
 
 # CORS
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-    'http://127.0.0.1:3000',
+    origin.strip()
+    for origin in os.getenv(
+        "CORS_ALLOWED_ORIGINS",
+        "http://localhost:3000,http://127.0.0.1:3000,https://pyverse-ai.ir,https://www.pyverse-ai.ir,https://alivalizade.ir,https://www.alivalizade.ir"
+    ).split(",")
+    if origin.strip()
 ]
 CORS_ALLOW_CREDENTIALS = True
 
