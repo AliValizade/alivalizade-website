@@ -1,6 +1,9 @@
 from rest_framework import viewsets
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.exceptions import ValidationError
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from django.utils import timezone
 
 from .models import Category, Course, Enrollment
 from .serializers import (
@@ -44,9 +47,6 @@ class CourseViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class EnrollmentViewSet(viewsets.ModelViewSet):
-    """
-    User enrollments (purchase history + new enrollments)
-    """
     serializer_class = EnrollmentSerializer
     permission_classes = [IsAuthenticated]
     http_method_names = ['get', 'post', 'head', 'options']
@@ -63,3 +63,32 @@ class EnrollmentViewSet(viewsets.ModelViewSet):
             amount_paid=course.final_price,
             status='pending',
         )
+
+    @action(detail=True, methods=['post'], url_path='pay-test')
+    def pay_test(self, request, pk=None):
+        """
+        Simulated payment for development.
+        Marks enrollment as completed without real gateway.
+        """
+        enrollment = self.get_object()
+
+        if enrollment.status == 'completed':
+            return Response({'detail': 'Already paid.', 'status': enrollment.status})
+
+        if enrollment.status in ['cancelled', 'refunded']:
+            return Response(
+                {'detail': 'Cannot pay for this enrollment.'},
+                status=400,
+            )
+
+        enrollment.status = 'completed'
+        enrollment.paid_at = timezone.now()
+        enrollment.transaction_id = f"TEST-{enrollment.id}-{int(timezone.now().timestamp())}"
+        enrollment.save(update_fields=['status', 'paid_at', 'transaction_id'])
+
+        return Response({
+            'detail': 'Test payment successful.',
+            'status': enrollment.status,
+            'transaction_id': enrollment.transaction_id,
+            'paid_at': enrollment.paid_at,
+        })

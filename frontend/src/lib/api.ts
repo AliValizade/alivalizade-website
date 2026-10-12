@@ -116,4 +116,9 @@ export const enrollInCourse = async (courseId: number) => {
   return res.data;
 };
 
+export const payEnrollmentTest = async (enrollmentId: number) => {
+  const res = await api.post(`/courses/enrollments/${enrollmentId}/pay-test/`);
+  return res.data;
+};
+
 export default api;
