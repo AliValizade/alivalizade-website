@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { BookOpen, Clock, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { getCourses } from "@/lib/api";
 import { useLocale, useTranslations } from "next-intl";
+import { BookOpen, Clock, ArrowLeft, Users } from "lucide-react";
 
 interface Course {
   id: number;
@@ -21,6 +21,7 @@ interface Course {
   has_discount?: boolean;
   is_featured: boolean;
   slug: string;
+  total_students?: number;
 }
 
 export default function Courses() {
@@ -93,14 +94,25 @@ export default function Courses() {
                     {locale === "en" ? (course.short_description_en || course.short_description) : course.short_description}
                   </p>
 
-                  <div className="flex items-center gap-4 text-xs text-[#94A3B8] mb-5">
+                  <div className="flex flex-wrap items-center gap-4 text-xs text-[#94A3B8] mb-5">
                     <div className="flex items-center gap-1.5">
                       <BookOpen size={14} />
                       <span>{levelMap[course.level] || course.level}</span>
                     </div>
                     <div className="flex items-center gap-1.5">
                       <Clock size={14} />
-                      <span>{course.duration_hours} {t("hours")}</span>
+                      <span>
+                        {course.duration_hours} {locale === "fa" ? "ساعت" : "hours"}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <Users size={14} />
+                      <span>
+                        {(course.total_students ?? 100).toLocaleString(
+                          locale === "fa" ? "fa-IR" : "en-US"
+                        )}{" "}
+                        {locale === "fa" ? "دانشجو" : "students"}
+                      </span>
                     </div>
                   </div>
 

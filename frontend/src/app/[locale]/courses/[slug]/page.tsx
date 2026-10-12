@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
 import Link from "next/link";
-import { BookOpen, Clock, ArrowLeft, Play } from "lucide-react";
 import { getCourseBySlug, enrollInCourse } from "@/lib/api";
 import { useAuthStore } from "@/store/authStore";
+import { BookOpen, Clock, ArrowLeft, Play, Users } from "lucide-react";
 
 interface Lesson {
   id: number;
@@ -35,6 +35,7 @@ interface Course {
   is_featured: boolean;
   lessons: Lesson[];
   lessons_count: number;
+  total_students?: number;
 }
 
 export default function CourseDetailPage() {
@@ -244,7 +245,7 @@ export default function CourseDetailPage() {
               )}
             </div>
 
-            <div className="flex items-center gap-4 text-sm text-[#94A3B8]">
+            <div className="flex flex-wrap items-center gap-4 text-sm text-[#94A3B8]">
               <div className="flex items-center gap-1.5">
                 <BookOpen size={16} />
                 <span>{levelMap[course.level] || course.level}</span>
@@ -252,8 +253,16 @@ export default function CourseDetailPage() {
               <div className="flex items-center gap-1.5">
                 <Clock size={16} />
                 <span>
-                  {course.duration_hours}{" "}
-                  {locale === "fa" ? "ساعت" : "hours"}
+                  {course.duration_hours} {locale === "fa" ? "ساعت" : "hours"}
+                </span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Users size={16} />
+                <span>
+                  {(course.total_students ?? 100).toLocaleString(
+                    locale === "fa" ? "fa-IR" : "en-US"
+                  )}{" "}
+                  {locale === "fa" ? "دانشجو" : "students"}
                 </span>
               </div>
             </div>
