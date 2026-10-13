@@ -6,6 +6,7 @@ import { routing } from "@/i18n/routing";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import "../globals.css";
+import type { Metadata } from "next";
 
 
 const geist = Geist({
@@ -18,6 +19,46 @@ const vazirmatn = Vazirmatn({
   weight: ["300", "400", "500", "600", "700"],
   display: "swap",
 });
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const isFa = locale === "fa";
+
+  const title = isFa
+    ? "علی ولی‌زاده | PyVerse — توسعه‌دهنده پایتون و هوش مصنوعی"
+    : "Ali Valizade | PyVerse — Python Developer & AI";
+
+  const description = isFa
+    ? "توسعه‌دهنده پایتون و جنگو، مدرس و متخصص اتوماسیون و هوش مصنوعی. رزومه، پروژه‌ها و دوره‌های آموزشی."
+    : "Python & Django developer, instructor, automation and AI specialist. Portfolio, projects, and courses.";
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      locale: isFa ? "fa_IR" : "en_US",
+      type: "website",
+      siteName: "PyVerse",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+    alternates: {
+      languages: {
+        fa: "/fa",
+        en: "/en",
+      },
+    },
+  };
+}
 
 export default async function LocaleLayout({
   children,
