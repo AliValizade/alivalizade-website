@@ -10,3 +10,4 @@ djangorestframework-simplejwt>=5.3
 django-modeltranslation>=0.19
 gunicorn>=22.0
 whitenoise>=6.0
+requests>=2.31
