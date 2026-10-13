@@ -38,7 +38,7 @@ export default function Navbar() {
           {/* Logo - Left */}
           <Link href={`/${locale}`} className="flex items-center z-10">
             <Image
-              src="/Logo.png"
+              src="/logo.png"
               alt="PyVerse"
               width={180}
               height={80}
