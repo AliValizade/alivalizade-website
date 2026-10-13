@@ -232,7 +232,25 @@ CONTACT_NOTIFICATION_EMAIL = os.getenv(
 )
 
 
+# پشت پروکسی Railway / HTTPS
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+USE_X_FORWARDED_HOST = True
 
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip()
+    for origin in os.getenv(
+        "CSRF_TRUSTED_ORIGINS",
+        "https://*.up.railway.app,https://alivalizade-website-production.up.railway.app"
+    ).split(",")
+    if origin.strip()
+]
+
+# وقتی DEBUG=False و HTTPS داری:
+if not DEBUG:
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+
+    
 # Custom user model (we will create it later if needed)
 # AUTH_USER_MODEL = 'accounts.User'
 
