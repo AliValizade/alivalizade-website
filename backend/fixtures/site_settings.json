@@ -1,0 +1,22 @@
+[
+  {
+    "model": "core.sitesettings",
+    "pk": 1,
+    "fields": {
+      "site_name": "علی ولی‌زاده",
+      "site_name_en": "Ali Valizadeh",
+      "tagline": "توسعه‌دهنده پایتون و مهندس هوش مصنوعی و اتوماسیون | مدرس دانشگاه",
+      "tagline_en": "Python Developer | AI & Automation Engineer | University Instructor",
+      "about_short": "توسعه‌دهنده پایتون و جنگو، مهندس هوش مصنوعی و اتوماسیون و مدرس دانشگاه؛ علاقه‌مند به ساخت راهکارهای نرم‌افزاری کاربردی، توسعه محصولات دیجیتال و آموزش فناوری.",
+      "about_short_en": "Python and Django developer, AI and automation engineer, and university instructor focused on building practical software solutions, developing digital products, and teaching technology.",
+      "about_full": "من علی ولی‌زاده هستم؛ توسعه‌دهنده نرم‌افزار با تمرکز بر Python و Django، فعال در حوزه هوش مصنوعی و اتوماسیون و مدرس دانشگاه. در فعالیت حرفه‌ای خود، توسعه نرم‌افزار را با حل مسئله، طراحی راهکارهای کاربردی و انتقال دانش پیوند می‌دهم.\n\nتمرکز فنی من بر توسعه بک‌اند و وب، طراحی و پیاده‌سازی سامانه‌ها، ساخت ابزارهای مبتنی بر هوش مصنوعی و خودکارسازی فرایندهاست. در کنار فعالیت اجرایی، به آموزش برنامه‌نویسی و مفاهیم فناوری، طراحی مسیرهای یادگیری و کمک به تبدیل ایده‌ها به محصولات قابل ارائه علاقه‌مندم.\n\nاین وب‌سایت مجموعه‌ای از تجربه‌ها، مهارت‌ها، پروژه‌ها و فعالیت‌های آموزشی من را ارائه می‌کند و راهی برای آشنایی و همکاری حرفه‌ای است.",
+      "about_full_en": "I’m Ali Valizadeh, a software developer focused on Python and Django, an AI and automation practitioner, and a university instructor. My work connects software development with problem-solving, practical solution design, and knowledge sharing.\n\nMy technical focus includes backend and web development, system design and implementation, AI-powered tools, and workflow automation. Alongside building software, I teach programming and technology, design learning experiences, and help turn ideas into practical products.\n\nThis website brings together my professional experience, skills, projects, and teaching activities, and serves as a point of contact for professional collaboration.",
+      "email": "alivalizade@gmail.com",
+      "phone": "",
+      "location": "مشهد، ایران",
+      "github": "https://github.com/AliValizade",
+      "linkedin": "https://www.linkedin.com/in/alivalizade/",
+      "telegram": "https://t.me/titechco"
+    }
+  }
+]
