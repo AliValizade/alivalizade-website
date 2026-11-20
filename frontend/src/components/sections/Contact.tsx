@@ -89,11 +89,11 @@ export default function Contact() {
               <div>
                 <h4 className="text-white font-medium mb-1">{t("phone")}</h4>
                 <a
-                  href="tel:+989155772159"
+                  href="tel:+989155721519"
                   className="text-[#94A3B8] hover:text-[#3B82F6] transition-colors text-sm"
                   dir="ltr"
                 >
-                  +98 915 577 2159
+                  +98 915 572 1519
                 </a>
               </div>
             </div>
