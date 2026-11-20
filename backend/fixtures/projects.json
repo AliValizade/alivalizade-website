@@ -1,0 +1,78 @@
+[
+  {
+    "model": "projects.project",
+    "pk": 1,
+    "fields": {
+      "title": "سامانه استخراج و پردازش اطلاعات کسب‌وکارها",
+      "title_en": "Business Data Scraper",
+      "slug": "business-data-scraper",
+      "short_description": "ابزار ماژولار مبتنی بر پایتون برای استخراج و پردازش اطلاعات کسب‌وکارها از Google Maps با معماری چندمنبعی و قابلیت توسعه.",
+      "short_description_en": "A modular Python tool for extracting and processing business data from Google Maps, designed with a multi-source architecture for future expansion.",
+      "description": "این پروژه با هدف گردآوری و پردازش ساختاریافته اطلاعات کسب‌وکارها توسعه داده شده است. هسته فعلی بر استخراج داده از Google Maps با استفاده از مرورگر خودکار تمرکز دارد و معماری آن برای افزودن منابع داده و توسعه قابلیت‌های پردازشی طراحی شده است.",
+      "description_en": "This project focuses on collecting and processing structured business information. Its current core extracts data from Google Maps through browser automation, with an architecture designed to support additional data sources and processing capabilities.",
+      "technologies": "Python, Playwright, SQLite, Pytest",
+      "github_url": "https://github.com/AliValizade/Business-Scraper",
+      "demo_url": "",
+      "is_featured": true,
+      "is_active": true,
+      "order": 1
+    }
+  },
+  {
+    "model": "projects.project",
+    "pk": 2,
+    "fields": {
+      "title": "تشخیص توپ ورزشی با پردازش تصویر",
+      "title_en": "Sports Ball Detection",
+      "slug": "sports-ball-detection",
+      "short_description": "پروژه پردازش تصویر برای تشخیص توپ ورزشی با استفاده از Python، OpenCV و تکنیک‌های کلاسیک بینایی ماشین.",
+      "short_description_en": "An image-processing project for sports ball detection using Python, OpenCV, and classical computer vision techniques.",
+      "description": "این پروژه نمونه‌ای کاربردی از به‌کارگیری روش‌های پردازش تصویر و بینایی ماشین برای شناسایی توپ در تصاویر و ویدئوهاست.",
+      "description_en": "A practical exploration of image processing and computer vision methods for detecting sports balls in images and video.",
+      "technologies": "Python, OpenCV, Computer Vision, Image Processing",
+      "github_url": "https://github.com/AliValizade/Sport-Ball-Detection",
+      "demo_url": "",
+      "is_featured": true,
+      "is_active": true,
+      "order": 2
+    }
+  },
+  {
+    "model": "projects.project",
+    "pk": 3,
+    "fields": {
+      "title": "پیاده‌سازی و مصورسازی شبکه‌های عصبی کلاسیک",
+      "title_en": "Classical Neural Networks",
+      "slug": "classical-neural-networks",
+      "short_description": "مجموعه‌ای از پیاده‌سازی‌ها و مصورسازی مدل‌های پایه شبکه عصبی شامل پرسپترون، ADALine، یادگیری هبی و نورون مک‌کالاک–پیتس با پایتون.",
+      "short_description_en": "Python implementations and visualizations of classical neural network models, including Perceptron, ADALine, Hebbian Learning, and McCulloch–Pitts neurons.",
+      "description": "این مجموعه با رویکرد آموزشی و آزمایشگاهی، مفاهیم بنیادین شبکه‌های عصبی را از طریق پیاده‌سازی و نمایش بصری مدل‌های کلاسیک بررسی می‌کند.",
+      "description_en": "An educational and experimental collection exploring foundational neural-network concepts through implementations and visualizations of classical models.",
+      "technologies": "Python, Neural Networks, Machine Learning, Data Visualization",
+      "github_url": "https://github.com/AliValizade/Neural-Networks",
+      "demo_url": "",
+      "is_featured": true,
+      "is_active": true,
+      "order": 3
+    }
+  },
+  {
+    "model": "projects.project",
+    "pk": 4,
+    "fields": {
+      "title": "اپلیکیشن دسکتاپ پومودورو",
+      "title_en": "Pomodoro Desktop App",
+      "slug": "pomodoro-desktop-app",
+      "short_description": "اپلیکیشن دسکتاپ تایمر پومودورو با رابط گرافیکی، توسعه‌یافته با Python و PySide6.",
+      "short_description_en": "A desktop Pomodoro timer application with a graphical interface, built with Python and PySide6.",
+      "description": "این پروژه یک ابزار دسکتاپ برای مدیریت بازه‌های تمرکز و استراحت با استفاده از الگوی پومودورو است.",
+      "description_en": "A desktop productivity tool for managing focus and break intervals using the Pomodoro technique.",
+      "technologies": "Python, PySide6, Qt",
+      "github_url": "https://github.com/AliValizade/Pomodoro",
+      "demo_url": "",
+      "is_featured": false,
+      "is_active": true,
+      "order": 4
+    }
+  }
+]
