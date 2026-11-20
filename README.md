@@ -30,7 +30,7 @@ alivalizade-website/
 - [x] Models defined for SiteSettings, Skill, Experience, Education, Project, Category, Course, Lesson, Enrollment
 - [x] Admin registered
 - [x] Migrations applied
-- [x] Superuser created (admin / admin1234)
+- [x] Superuser created 
 
 ## How to run backend (development)
 
