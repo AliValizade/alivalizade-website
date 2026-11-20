@@ -1,0 +1,182 @@
+[
+  {
+    "model": "core.skill",
+    "pk": 1,
+    "fields": {
+      "name": "برنامه‌نویسی پایتون",
+      "name_en": "Python Programming",
+      "level": "advanced",
+      "category": "Programming",
+      "order": 1,
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.skill",
+    "pk": 2,
+    "fields": {
+      "name": "توسعه وب با جنگو",
+      "name_en": "Django Web Development",
+      "level": "advanced",
+      "category": "Backend Development",
+      "order": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.skill",
+    "pk": 3,
+    "fields": {
+      "name": "طراحی و توسعه API با Django REST Framework",
+      "name_en": "REST API Development",
+      "level": "intermediate",
+      "category": "Backend Development",
+      "order": 3,
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.skill",
+    "pk": 4,
+    "fields": {
+      "name": "طراحی پایگاه داده و SQL",
+      "name_en": "Database Design & SQL",
+      "level": "intermediate",
+      "category": "Backend Development",
+      "order": 4,
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.skill",
+    "pk": 5,
+    "fields": {
+      "name": "PostgreSQL",
+      "name_en": "PostgreSQL",
+      "level": "intermediate",
+      "category": "Backend Development",
+      "order": 5,
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.skill",
+    "pk": 6,
+    "fields": {
+      "name": "برنامه‌نویسی شی‌گرا",
+      "name_en": "Object-Oriented Programming",
+      "level": "advanced",
+      "category": "Programming",
+      "order": 6,
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.skill",
+    "pk": 7,
+    "fields": {
+      "name": "هوش مصنوعی و یادگیری ماشین",
+      "name_en": "Artificial Intelligence & Machine Learning",
+      "level": "intermediate",
+      "category": "AI & Data",
+      "order": 7,
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.skill",
+    "pk": 8,
+    "fields": {
+      "name": "پردازش زبان طبیعی",
+      "name_en": "Natural Language Processing",
+      "level": "intermediate",
+      "category": "AI & Data",
+      "order": 8,
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.skill",
+    "pk": 9,
+    "fields": {
+      "name": "مهندسی پرامپت",
+      "name_en": "Prompt Engineering",
+      "level": "intermediate",
+      "category": "AI & Data",
+      "order": 9,
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.skill",
+    "pk": 10,
+    "fields": {
+      "name": "اتوماسیون فرایندها",
+      "name_en": "Workflow Automation",
+      "level": "intermediate",
+      "category": "AI & Automation",
+      "order": 10,
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.skill",
+    "pk": 11,
+    "fields": {
+      "name": "توسعه ابزارهای هوشمند با هوش مصنوعی",
+      "name_en": "AI-Powered Tools Development",
+      "level": "intermediate",
+      "category": "AI & Automation",
+      "order": 11,
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.skill",
+    "pk": 12,
+    "fields": {
+      "name": "لینوکس و برنامه‌نویسی سیستمی",
+      "name_en": "Linux & Systems Programming",
+      "level": "intermediate",
+      "category": "Systems",
+      "order": 12,
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.skill",
+    "pk": 13,
+    "fields": {
+      "name": "گیت و مدیریت نسخه",
+      "name_en": "Git & Version Control",
+      "level": "intermediate",
+      "category": "Tools & Workflow",
+      "order": 13,
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.skill",
+    "pk": 14,
+    "fields": {
+      "name": "تدریس و انتقال مفاهیم برنامه‌نویسی",
+      "name_en": "Programming Instruction",
+      "level": "advanced",
+      "category": "Teaching",
+      "order": 14,
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.skill",
+    "pk": 15,
+    "fields": {
+      "name": "طراحی محتوای آموزشی هوش مصنوعی",
+      "name_en": "AI Curriculum & Learning Content Design",
+      "level": "intermediate",
+      "category": "Teaching",
+      "order": 15,
+      "is_active": true
+    }
+  }
+]
